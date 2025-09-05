@@ -1,14 +1,10 @@
 import './App.css';
-// import About from './components/About';   // 🔹 Commented out About
+import About from './components/About';
 import Alert from './components/Alert';
 import Navbar from './components/Navbar';
 import TextForm from './components/TextForm';
 import React, { useState } from 'react';
-// import {
-//   BrowserRouter as Router,
-//   Routes,
-//   Route,
-// } from "react-router-dom";   // 🔹 Commented out routing since About is removed
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   const [mode, setMode] = useState('light');
@@ -16,9 +12,7 @@ function App() {
 
   const showAlert = (message, type) => {
     setAlert({ msg: message, type: type });
-    setTimeout(() => {
-      setAlert(null);
-    }, 2000);
+    setTimeout(() => setAlert(null), 2000);
   };
 
   const toggleMode = () => {
@@ -34,27 +28,16 @@ function App() {
   };
 
   return (
-    <>
-      <Navbar
-        title="MyApp"
-        aboutApp="About Us"
-        mode={mode}
-        toggleMode={toggleMode}
-      />
+    <Router>
+      <Navbar title="MyApp" aboutApp="About Us" mode={mode} toggleMode={toggleMode} />
       <Alert alert={alert} />
       <div className="container my-3">
-        {/* 🔹 About section is commented out */}
-        {/*
-        <About mode={mode} />
-        */}
-        
-        <TextForm
-          heading="Enter text below"
-          mode={mode}
-          showAlert={showAlert}
-        />
+        <Routes>
+          <Route path="/" element={<TextForm heading="Enter text below" mode={mode} showAlert={showAlert} />} />
+          <Route path="/about" element={<About mode={mode} />} />
+        </Routes>
       </div>
-    </>
+    </Router>
   );
 }
 
